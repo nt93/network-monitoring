@@ -1,0 +1,30 @@
+Build Instructions:
+
+$ go build -o throughput avg_throughput.go
+$ ./throughput
+OR
+$ go run avg_throughput.go
+
+
+Output:
+Average networking throughput going through a box will be printed on the command line every second. ctrl + c will quit the tool.
+
+Throughput:
+Throughput is defined as the actual amount of data transferred by a box over a period of time. 
+
+Throughput Calculation:
+1. The tool uses received bytes at all interfaces to calculate throughput.
+2. It parses the proc/net/dev file every second to extract received bytes of all interfaces and sum them to show throughput for that time interval.
+
+Throughput = Bytes Received / Time
+
+Average throughput Calculation:
+In calculation, we can use any of the three theoretical formulas:
+1. Simple average: Summation of Bytes Received / End time
+2. Simple average: Summation of (Bytes Received at end time - Bytes Received at begin time) / (End time - Begin time)
+3. Average: Current throughput = A(last bytes received) + (1-A) Current throughput ; A ~ 0.25.
+
+I have used simple average as in formula 2.
+
+Test:
+Tested on Linux x86_64 bit machine running Ubuntu 14.04, by generating different traffics using ping and iperf.
